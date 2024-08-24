@@ -23,7 +23,7 @@
                 <div class="btn btn-outline-light me-2">{{ user }}</div>
                 <a href="" type="button" class="btn btn-warning">Выйти</a>
                 {% else %}
-                <a href="" type="button" class="btn btn-outline-light me-2">Регистрация</a>
+                <a href="{% url 'registration' %}" type="button" class="btn btn-outline-light me-2">Регистрация</a>
                 <a href="" type="button" class="btn btn-warning">Войти</a>
                 {% endif %}
             </div>
