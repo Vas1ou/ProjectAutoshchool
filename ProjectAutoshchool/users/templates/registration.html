@@ -7,26 +7,30 @@
         {% csrf_token %}
         <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
         {% if error_password %}
-            <h1 class="h4 mb-3 fw-normal" style="color: red;">{{error_password}}</h1>
+        <h1 class="h4 mb-3 fw-normal" style="color: red;">{{error_password}}</h1>
         {% endif %}
         <div class="form-floating">
-            <input type="" class="form-control" id="floatingInput" placeholder="Логин" name="login">
-            <label for="floatingInput">Логин</label>
+            <input required class="form-control" placeholder="Имя" name="first_name">
+            <label>Имя</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password">
+            <input required class="form-control" placeholder="Фамилия" name="last_name">
+            <label>Фамилия</label>
+        </div>
+        <div class="form-floating">
+            <input required type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password">
             <label for="floatingPassword">Пароль</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" placeholder="Подтвердите пароль" name="repeat_password">
+            <input required type="password" class="form-control" placeholder="Подтвердите пароль" name="repeat_password">
             <label for="floatingPassword">Подтвердите пароль</label>
         </div>
         <div class="form-floating">
-            <input type="" class="form-control" id="" placeholder="Номер телефона" name="ph_number">
+            <input required type="" class="form-control" id="" placeholder="Номер телефона" name="ph_number" value="+7">
             <label for="floatingPassword">Номер телефона</label>
         </div>
         <div class="form-floating">
-            <input type="date" class="form-control" id="floatingDate:" placeholder="Дата Рождения" name="date_birth">
+            <input required type="date" class="form-control" id="floatingDate:" placeholder="Дата Рождения" name="date_birth">
             <label for="floatingPassword">Дата Рождения</label>
         </div>
 
