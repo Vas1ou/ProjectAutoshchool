@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="form-signin w-100 m-auto">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal">Авторизация</h1>
+        {% if error %}
+        <h1 class="h4 mb-3 fw-normal" style="color: red;">{{error}}</h1>
+        {% endif %}
+        <div class="form-floating">
+            <input required class="form-control" placeholder="Логин" name="login">
+            <label>Логин</label>
+        </div>
+        <div class="form-floating">
+            <input required type="password" class="form-control" id="floatingPassword" placeholder="Пароль"
+                   name="password">
+            <label for="floatingPassword">Пароль</label>
+        </div>
+        <br>
+        <button class="btn btn-primary w-10 py-2" type="submit">Авторизация</button>
+    </form>
+</main>
+
+{% endblock %}

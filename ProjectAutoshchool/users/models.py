@@ -31,6 +31,7 @@ class ManagerProfile(models.Model):
 class StudentProfile(User):
     address = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
+    accepted = models.BooleanField(null=False, default=False)
 
     def save(self, *args, **kwargs):
         if not self.pk:  # При первом сохранении

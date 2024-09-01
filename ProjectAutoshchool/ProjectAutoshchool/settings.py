@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'general_info',
+    'document_flow',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +69,7 @@ TEMPLATES = [
         },
     },
 ]
-
+AUTH_USER_MODEL = 'users.User'
 WSGI_APPLICATION = 'ProjectAutoshchool.wsgi.application'
 
 
