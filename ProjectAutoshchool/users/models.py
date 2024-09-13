@@ -13,19 +13,23 @@ class User(AbstractUser):
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
     phone = models.CharField(max_length=15, blank=True)
 
-    # Указываем уникальные related_name для устранения конфликта
-    groups = models.ManyToManyField(Group, related_name='custom_user_set')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions_set')
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
 
-class TeacherProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'user_type': 'teacher'}, related_name='teacher_profile')
+class TeacherProfile(User):
     bio = models.TextField(blank=True, null=True)
 
 
-class ManagerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'user_type': 'manager'}, related_name='manager_profile')
-    address = models.TextField(blank=True, null=True)
+class ManagerProfile(User):
+    def save(self, *args, **kwargs):
+        if not self.pk:  # При первом сохранении
+            self.user_type = 'manager'
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Manager'
+        verbose_name_plural = 'Managers'
 
 
 class StudentProfile(User):
