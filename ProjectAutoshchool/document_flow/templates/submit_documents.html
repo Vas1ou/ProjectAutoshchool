@@ -4,35 +4,36 @@
 
 <div class="container mt-5">
     <h2 class="h3 mb-3 fw-normal">Форма для приема документов {{user.first_name}} {{ user.last_name }}</h2>
-    <form>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <!-- Серия и номер паспорта -->
         <div class="mb-3">
             <label for="passportSeriesNumber" class="form-label">Серия и номер паспорта</label>
             <input type="text" class="form-control" id="passportSeriesNumber"
-                   placeholder="Введите серию и номер паспорта" required>
+                   placeholder="Введите серию и номер паспорта" name="passport_series" required>
         </div>
 
         <!-- Кем выдан паспорт -->
         <div class="mb-3">
             <label for="issuedBy" class="form-label">Кем выдан</label>
-            <input type="text" class="form-control" id="issuedBy" placeholder="Укажите, кем выдан паспорт" required>
+            <input name="issued_by" type="text" class="form-control" id="issuedBy" placeholder="Укажите, кем выдан паспорт" required>
         </div>
 
         <!-- Дата выдачи -->
         <div class="mb-3">
             <label for="issueDate" class="form-label">Когда выдан (дата)</label>
-            <input type="date" class="form-control" id="issueDate" required>
+            <input type="date" class="form-control" id="issueDate" name="when_issued" required>
         </div>
 
         <!-- Загрузка медицинской справки -->
         <div class="mb-3">
             <label for="medicalCertificate" class="form-label">Медицинская справка</label>
-            <input type="file" class="form-control" id="medicalCertificate" required>
+            <input name="medical_certificate" type="file" class="form-control" id="medicalCertificate" required>
         </div>
 
         <div class="mb-3">
             <label for="medicalCertificate" class="form-label">Чек об оплате</label>
-            <input type="file" class="form-control" id="" required>
+            <input name="check_for_service" type="file" class="form-control" id="" required>
         </div>
 
         <!-- Кнопка отправки -->

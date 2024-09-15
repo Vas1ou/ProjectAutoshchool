@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-
 from django.contrib import admin
 from .models import User, ManagerProfile
+
 
 class ManagerProfileAdmin(admin.ModelAdmin):
     list_display = ('username', 'first_name', 'last_name', 'phone', 'user_type')
