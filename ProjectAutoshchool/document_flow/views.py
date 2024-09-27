@@ -15,6 +15,6 @@ def submit_documents(request):
             'check_for_service': request.FILES.get('check_for_service'),
             'user_id': request.user.id
         }
-        print(data)
+
         DocumentsAdmission.objects.create(**data)
         return redirect('general')

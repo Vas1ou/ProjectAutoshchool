@@ -12,10 +12,18 @@
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{% url 'general' %}" class="nav-link px-2 text-secondary">Главная страница</a></li>
+                <li><a href="{% url 'general' %}" class="nav-link px-2 text-white">Главная страница</a></li>
                 <li><a href="{% url 'about_us' %}" class="nav-link px-2 text-white">О нас</a></li>
-                {% if user.is_authenticated and not user.accepted %}
-                    <li><a href="{% url 'submit_documents' %}" class="nav-link px-2 text-white">Подать документы</a></li>
+                {% if user.is_authenticated %}
+                    {% if user.student_profile and not user.student_profile.submit_doc %}
+                        <li><a href="{% url 'submit_documents' %}" class="nav-link px-2 text-white">Подать документы</a></li>
+                    {% endif %}
+                    {% if user.student_profile and user.student_profile.submit_doc and not user.student_profile.accepted %}
+                        <li class="nav-link px-2" style="color: gray">Вы подали документы на обучение</li>
+                    {% endif %}
+                {% endif %}
+                {% if user.manager_profile %}
+                    менеджер
                 {% endif %}
             </ul>
             <div class="text-end">
@@ -40,9 +48,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 
 <div class="container-fluid">

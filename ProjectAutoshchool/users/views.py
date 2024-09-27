@@ -12,36 +12,41 @@ def registration(request):
     if request.method == 'POST':
         data = {
             'username': request.POST.get('login'),
-            'fist_name': request.POST.get('first_name'),
+            'first_name': request.POST.get('first_name'),
             'last_name': request.POST.get('last_name'),
             'password': request.POST.get('password'),
             'repeat_password': request.POST.get('repeat_password'),
-            'ph_number': request.POST.get('ph_number'),
-            'date_birth': request.POST.get('date_birth'),
+            'phone': request.POST.get('ph_number'),
+            'date_of_birth': request.POST.get('date_birth'),
         }
 
         # Проверка, что пароли одинаковые
         if data['password'] != data['repeat_password']:
             return render(request, 'registration.html', {'error': 'Пароли не совпадают'})
         # Проверка, что номер телефона валидный
-        if not is_valid_phone_number(data['ph_number']):
+        if not is_valid_phone_number(data['phone']):
             return render(request, 'registration.html',
                           {'error': 'Номер телефона введён неправильно'})
         # Проверка, что пользователь с таким номером телефона отсутствует
-        if User.objects.filter(phone=data['ph_number']).exists():
+        if User.objects.filter(phone=data['phone']).exists():
             return render(request, 'registration.html',
                           {'error': 'Пользователь с таким номером телефона уже существует'})
 
         # Создание пользователя
-        StudentProfile.objects.create(
+        user = User.objects.create(
             username=data['username'],
-            first_name=data['fist_name'],
+            first_name=data['first_name'],
             last_name=data['last_name'],
-            phone=data['ph_number'],
-            password=make_password(data['password']), # Хешируем пароль
-            date_of_birth=data['date_birth'],
+            phone=data['phone'],
+            password=make_password(data['password']),  # Хешируем пароль
+            user_type='student'  # Устанавливаем тип пользователя
         )
-
+        # Создание профиля студента
+        StudentProfile.objects.create(
+            user=user,  # Связываем профиль с пользователем
+            date_of_birth=data['date_of_birth'],  # Дата рождения
+            submit_doc=True,
+        )
         return redirect('login_user')
     elif request.method == 'GET':
         return render(request, 'registration.html', {})

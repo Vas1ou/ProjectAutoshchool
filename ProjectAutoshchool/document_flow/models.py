@@ -9,4 +9,4 @@ class DocumentsAdmission(models.Model):
     medical_certificate = models.ImageField(upload_to='documents/medical_cerf/', verbose_name='Мед. справка')
     check_for_service = models.ImageField(upload_to='documents/checks/', verbose_name='Чек об оплате')
     user = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True)
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, verbose_name='Документы приняты')

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
@@ -8,37 +8,31 @@ class User(AbstractUser):
         ('teacher', 'Teacher'),
         ('manager', 'Manager'),
     )
-    first_name = models.CharField(max_length=50, blank=True, db_index=True, verbose_name='Имя')
-    last_name = models.CharField(max_length=50, blank=True, db_index=True, verbose_name='Фамилия')
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, verbose_name='Тип пользователя')
     phone = models.CharField(max_length=15, blank=True, verbose_name='Номер телефона')
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+    def __str__(self):
+        return self.username
 
-
-class TeacherProfile(User):
+class TeacherProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
     bio = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.user.username} (Учитель)'
 
-class ManagerProfile(User):
-    def save(self, *args, **kwargs):
-        if not self.pk:  # При первом сохранении
-            self.user_type = 'manager'
-        super().save(*args, **kwargs)
+class ManagerProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='manager_profile')
 
-    class Meta:
-        verbose_name = 'Manager'
-        verbose_name_plural = 'Managers'
+    def __str__(self):
+        return f'{self.user.username} (Менеджер)'
 
-
-class StudentProfile(User):
+class StudentProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
     address = models.TextField(blank=True, null=True, verbose_name='Адрес')
     date_of_birth = models.DateField(blank=True, null=True, verbose_name='Дата рождения')
-    accepted = models.BooleanField(null=False, default=False, verbose_name='Студент принят на обучение?')
+    accepted = models.BooleanField(default=False, verbose_name='Студент принят на обучение?')
     submit_doc = models.BooleanField(default=False, verbose_name='Подал ли студент документы?')
 
-    def save(self, *args, **kwargs):
-        if not self.pk:  # При первом сохранении
-            self.user_type = 'student'
-        super().save(*args, **kwargs)
+    def __str__(self):
+        return f'{self.user.username} (Студент)'
