@@ -23,7 +23,7 @@
                     {% endif %}
                 {% endif %}
                 {% if user.manager_profile %}
-                    менеджер
+                    <li><a href="{% url 'viewing_documents' %}" class="nav-link px-2 text-white">Принять документы({{ document_count }})</a></li>
                 {% endif %}
             </ul>
             <div class="text-end">
@@ -53,14 +53,14 @@
 <div class="container-fluid">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="" class="nav-link px-2 text-muted">Главная страница</a>
+            <li class="nav-item"><a href="{% url 'general' %}" class="nav-link px-2 text-muted">Главная страница</a>
             </li>
-            <li class="nav-item"><a href="" class="nav-link px-2 text-muted">О нас</a>
+            <li class="nav-item"><a href="{% url 'about_us' %}" class="nav-link px-2 text-muted">О нас</a>
             </li>
             <li class="nav-item"><a href="" class="nav-link px-2 text-muted">Обратная связь</a>
             </li>
         </ul>
-        <p class="text-center text-muted">© 2024 *придумаешь название Автошколы*</p>
+        <p class="text-center text-muted">© 2024-2025 *придумаешь название Автошколы*</p>
     </footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

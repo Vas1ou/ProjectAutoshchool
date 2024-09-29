@@ -2,8 +2,7 @@ from django.shortcuts import render
 
 
 def general(request):
-    context = {}
-    return render(request, 'general.html', context=context)
+    return render(request, 'general.html', context={})
 
 
 def about_us(request):

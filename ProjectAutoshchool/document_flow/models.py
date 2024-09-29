@@ -10,3 +10,6 @@ class DocumentsAdmission(models.Model):
     check_for_service = models.ImageField(upload_to='documents/checks/', verbose_name='Чек об оплате')
     user = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True)
     verified = models.BooleanField(default=False, verbose_name='Документы приняты')
+
+    def __str__(self):
+        return f'Документы абитуриента: {self.user.user.first_name} {self.user.user.last_name}'

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for document in documents %}
+<div>{{document}} <a href="{% url 'accept_documents' stud_id=document.pk %}">Проверить</a></div>
+{% endfor %}
+
+{% endblock %}
