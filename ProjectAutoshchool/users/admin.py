@@ -1,22 +1,27 @@
 from django.contrib import admin
 from django import forms
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import User, TeacherProfile, ManagerProfile, StudentProfile
 
-
-# Форма для ограничения выбора типа пользователя
+# Форма для добавления и редактирования пользователей
 class UserForm(forms.ModelForm):
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'user_type', 'phone']
+        fields = ['username', 'first_name', 'last_name', 'user_type', 'phone', 'password']
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
-        # Ограничение выбора на только учителя и менеджера
+        # Ограничиваем выбор типа пользователя только учителями и менеджерами
         self.fields['user_type'].choices = [
             ('teacher', 'Teacher'),
             ('manager', 'Manager'),
         ]
 
+    def clean_password(self):
+        # Возвращаем пароль в "чистом виде", чтобы он был хеширован
+        return self.cleaned_data.get('password')
 
 # Инлайн для профиля учителя
 class TeacherProfileInline(admin.StackedInline):
@@ -24,13 +29,11 @@ class TeacherProfileInline(admin.StackedInline):
     can_delete = False
     extra = 0
 
-
 # Инлайн для профиля менеджера
 class ManagerProfileInline(admin.StackedInline):
     model = ManagerProfile
     can_delete = False
     extra = 0
-
 
 # Админка для модели пользователя
 class UserAdmin(admin.ModelAdmin):
@@ -54,6 +57,8 @@ class UserAdmin(admin.ModelAdmin):
 
     # Переопределение метода сохранения
     def save_model(self, request, obj, form, change):
+        if form.cleaned_data.get('password'):
+            obj.set_password(form.cleaned_data['password'])
         super().save_model(request, obj, form, change)
 
         # Создаем профиль учителя или менеджера, если его нет
@@ -61,7 +66,6 @@ class UserAdmin(admin.ModelAdmin):
             TeacherProfile.objects.create(user=obj)
         elif obj.user_type == 'manager' and not hasattr(obj, 'manager_profile'):
             ManagerProfile.objects.create(user=obj)
-
 
 # Админка для профиля студента
 class StudentProfileAdmin(admin.ModelAdmin):
@@ -74,7 +78,6 @@ class StudentProfileAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
 
 # Регистрируем все модели в админке
 admin.site.register(User, UserAdmin)
