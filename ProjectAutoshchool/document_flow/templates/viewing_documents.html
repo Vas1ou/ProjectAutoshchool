@@ -3,7 +3,69 @@
 {% block content %}
 
 {% for document in documents %}
-<div>{{document}} <a href="{% url 'accept_documents' stud_id=document.pk %}">Проверить</a></div>
+<div class="container mt-4">
+    <div class="row">
+        {% for document in documents %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document }}</h5>
+                    <a href="{% url 'accept_documents' document_id=document.pk %}" class="btn btn-primary">Проверить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for document in documents %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document }}</h5>
+                    <a href="{% url 'accept_documents' document_id=document.pk %}" class="btn btn-primary">Проверить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for document in documents %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document }}</h5>
+                    <a href="{% url 'accept_documents' document_id=document.pk %}" class="btn btn-primary">Проверить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for document in documents %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document }}</h5>
+                    <a href="{% url 'accept_documents' document_id=document.pk %}" class="btn btn-primary">Проверить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for document in documents %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document }}</h5>
+                    <a href="{% url 'accept_documents' document_id=document.pk %}" class="btn btn-primary">Проверить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endfor %}
 
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .document-card:hover {
+        transform: scale(1.05);
+        color: grey;
+    }
+</style>
 {% endblock %}

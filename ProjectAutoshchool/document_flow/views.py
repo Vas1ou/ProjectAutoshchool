@@ -28,5 +28,35 @@ def viewing_documents(request):
     documents = DocumentsAdmission.objects.filter(verified=False)
     return render(request, 'viewing_documents.html', context={'documents': documents})
 
-def accept_documents(request, stud_id):
-    return render(request, 'accept_documents.html', context={'stud_id': stud_id})
+def accept_documents(request, document_id):
+    document = DocumentsAdmission.objects.get(pk=document_id)
+    if request.method == 'GET':
+        return render(request, 'accept_documents.html', context={'document': document})
+    else:
+        # Переменная отвечает за документы (приняты или нет)
+        action = request.POST.get('action')
+        # Получаю студента
+        student = document.user
+        # Если документы не приняты
+        if action == 'reject':
+            # Если документы не приняты, необходимо удалить документы, а у студента отобразить то, что он не
+            # подал документы
+            student.submit_doc = False
+            student.save()
+
+            # Удаляем медиафайлы вручную
+            if document.medical_certificate:
+                document.medical_certificate.delete(save=False)
+            if document.check_for_service:
+                document.check_for_service.delete(save=False)
+            # Удаляю, поданные студентом, документы
+            document.delete()
+        # Если документы приняты
+        elif action == 'accept':
+            # Принимаем студента на обучение
+            student.accepted = True
+            student.save()
+            # Отмечаем, что документы приняты
+            document.verified = True
+            document.save()
+        return redirect('viewing_documents')

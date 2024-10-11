@@ -1,7 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4>Абитуриент: {{ document.user.user.first_name }} {{ document.user.user.last_name }}</h4>
+            <h5>Номер телефона: {{ document.user.user.phone }}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Серия и номер паспорта:</strong> {{ document.passport_series }}</p>
+            <p><strong>Кем выдан:</strong> {{ document.issued_by }}</p>
+            <p><strong>Когда выдан:</strong> {{ document.when_issued }}</p>
 
-Принять документы для ученика c айдишником {{ stud_id }}
-
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Медицинская справка:</strong></p>
+                    <img src="{{ document.medical_certificate.url }}" alt="Мед. справка" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Чек об оплате:</strong></p>
+                    <img src="{{ document.check_for_service.url }}" alt="Чек об оплате" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <form action="" method="post" class="me-2">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="reject">
+                <button type="submit" class="btn btn-danger">Отклонить документы</button>
+            </form>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="accept">
+                <button type="submit" class="btn btn-success">Принять документы</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
