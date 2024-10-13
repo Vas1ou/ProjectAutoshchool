@@ -28,6 +28,7 @@ def viewing_documents(request):
     documents = DocumentsAdmission.objects.filter(verified=False)
     return render(request, 'viewing_documents.html', context={'documents': documents})
 
+
 def accept_documents(request, document_id):
     document = DocumentsAdmission.objects.get(pk=document_id)
     if request.method == 'GET':
