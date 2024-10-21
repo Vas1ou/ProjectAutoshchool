@@ -29,6 +29,9 @@
                     {% if user.manager_profile %}
                         <li><a href="{% url 'viewing_documents' %}" class="nav-link px-2 text-white">Принять документы({{ document_count }})</a></li>
                     {% endif %}
+                    {% if user.teacher_profile %}
+                        <li><a href="{% url 'add_question' %}" class="nav-link px-2 text-white">Создать вопрос</a></li>
+                    {% endif %}
                 {% endif %}
             </ul>
             <div class="text-end">

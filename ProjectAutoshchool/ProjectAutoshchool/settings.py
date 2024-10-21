@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'general_info',
     'document_flow',
+    'tests',
 ]
 
 MIDDLEWARE = [

@@ -49,13 +49,13 @@ def registration(request):
         )
         return redirect('login_user')
     elif request.method == 'GET':
-        return render(request, 'registration.html', {})
+        return render(request, 'registration.html', {'title': 'Регистрация'})
 
 
 
 def login_user(request):
     if request.method == 'GET':
-        return render(request, 'login.html', {})
+        return render(request, 'login.html', {'title': 'Авторизация'})
     elif request.method == 'POST':
         username = request.POST.get('login')
         password = request.POST.get('password')
@@ -70,7 +70,8 @@ def login_user(request):
         else:
             # Ошибка аутентификации
             error_message = "Неверный логин пользователя или пароль."
-            return render(request, 'login.html', {'error': error_message})
+            return render(request, 'login.html', {'error': error_message,
+                                                                      'title': 'Авторизация'})
 
 
 @login_required

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>{{ title }}</h2>
+
+    <!-- Вопрос -->
+    <div class="mb-3">
+        <label for="quest_text" class="form-label">Текст вопроса:</label>
+        <textarea id="quest_text" name="question_text" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <!-- Пояснение к правильному ответу -->
+    <div class="mb-3">
+        <label for="answer_text" class="form-label">Текст пояснения к правильному ответу:</label>
+        <textarea id="answer_text" name="explanation" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <!-- Изображение -->
+    <div class="mb-3">
+        <label for="image" class="form-label">Изображение (опционально):</label>
+        <input type="file" id="image" name="question_image" class="form-control" accept="image/*">
+    </div>
+
+    <h3>Варианты ответов</h3>
+    <div id="answer-options">
+        {% for number in number_of_responses %}
+        <div class="mb-3">
+            <input type="text" name="answer{{number}}" class="form-control" placeholder="Введите {{number}} вариант ответа">
+            <div class="form-check">
+                <input type="radio" name="correct_answer" value="{{number}}" class="form-check-input" id="correct_answer_1">
+                <label class="form-check-label" for="correct_answer_1">Правильный</label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить вопрос</button>
+</form>
+
+{% endblock %}
