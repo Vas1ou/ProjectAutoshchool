@@ -31,6 +31,7 @@
                     {% endif %}
                     {% if user.teacher_profile %}
                         <li><a href="{% url 'add_question' %}" class="nav-link px-2 text-white">Создать вопрос</a></li>
+                        <li><a href="{% url 'view_questions' %}" class="nav-link px-2 text-white">Просмотреть все вопросы</a></li>
                     {% endif %}
                 {% endif %}
             </ul>

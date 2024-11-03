@@ -23,14 +23,18 @@
         <input type="file" id="image" name="question_image" class="form-control" accept="image/*">
     </div>
 
-    <h3>Варианты ответов</h3>
+    <h3 class="mt-4">Варианты ответов</h3>
     <div id="answer-options">
         {% for number in number_of_responses %}
         <div class="mb-3">
-            <input type="text" name="answer{{number}}" class="form-control" placeholder="Введите {{number}} вариант ответа">
-            <div class="form-check">
-                <input type="radio" name="correct_answer" value="{{number}}" class="form-check-input" id="correct_answer_1">
-                <label class="form-check-label" for="correct_answer_1">Правильный</label>
+            <div class="input-group">
+                <input type="text" name="answer{{ number }}" class="form-control"
+                       placeholder="Введите вариант ответа {{ number }}">
+                <div class="ms-3">
+                    <input type="radio" name="correct_answer{{ number }}" value="{{ number }}" class="form-check-input"
+                           id="correct_answer_{{ number }}">
+                    <label class="form-check-label" for="correct_answer_{{ number }}">Правильный</label>
+                </div>
             </div>
         </div>
         {% endfor %}

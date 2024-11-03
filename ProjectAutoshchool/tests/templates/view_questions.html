@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="h3 mb-4 fw-normal">Список вопросов</h2>
+
+    <!-- Выпадающий список для фильтрации по автору -->
+    <form method="get" class="mb-4">
+ <label for="author" class="form-label">Автор:</label>
+    <select id="author" name="author" class="form-select" onchange="this.form.submit()">
+        <option value="">Все авторы</option>
+        <option value="deleted_authors" {% if request.GET.author == "deleted_authors" %}selected{% endif %}>
+            Удалённые авторы
+        </option>
+        {% for author in authors %}
+            <option value="{{ author.id }}" {% if request.GET.author == author.id|stringformat:"s" %}selected{% endif %}>
+                {{ author.user.get_full_name }}
+            </option>
+        {% endfor %}
+    </select>
+    </form>
+
+    <div class="list-group">
+        {% for question in questions %}
+        <a href="{% url 'question_detail' question.pk %}" class="list-group-item list-group-item-action mb-3 p-3 shadow-sm"
+           style="transition: box-shadow 0.3s ease, transform 0.3s ease; border-radius: 8px;">
+            <div class="d-flex align-items-center">
+                {% if question.question_image %}
+                    <img src="{{ question.question_image.url }}" alt="Изображение вопроса"
+                         class="img-thumbnail me-3" style="width: 120px; height: auto; border-radius: 8px;">
+                {% endif %}
+                <div class="flex-grow-1">
+                    <h5 class="mb-2">{{ question.question_text }}</h5>
+                    <p class="mb-1 text-muted">{{ question.explanation|truncatewords:10 }}</p>
+
+                    <ul class="list-unstyled">
+                        {% for answer in question.answers.all %}
+                            <li>
+                                {{ answer.answer_text }} —
+                                <span class="{{ answer.is_correct|yesno:'text-success,text-danger' }}">
+                                    {{ answer.is_correct|yesno:'Правильный,Неправильный' }}
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <small class="text-muted">Всего ответов: {{ question.answers.count }}</small>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
