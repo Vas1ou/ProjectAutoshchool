@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 
 from .utils import is_valid_phone_number
-from .models import StudentProfile, User
+from .models import StudentProfile, User, StudentGroup
 
 
 def registration(request):
@@ -78,3 +78,28 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('general')
+
+
+def add_group(request):
+    context = {'title': 'Добавить группу'}
+    if request.method == 'GET':
+        return render(request, 'add_group.html', context=context)
+    elif request.method == 'POST':
+        name = request.POST.get('name')
+        try:
+            group_capacity = int(request.POST.get('group_capacity').strip())
+        except Exception:
+            context['error'] = 'Введите количество учащихся для данной группы'
+            return render(request, 'add_group.html', context=context)
+        if StudentGroup.objects.filter(name=name).exists():
+            context['error'] = 'Группа с таким названием уже существует. '
+            return render(request, 'add_group.html', context=context)
+        StudentGroup.objects.create(name=name, group_capacity=group_capacity)
+
+        return redirect('general')
+
+
+def get_groups(request):
+    groups = StudentGroup.objects.all()
+    context = {'title': 'Просмотр всех групп', 'groups': groups}
+    return render(request, 'get_groups.html', context=context)

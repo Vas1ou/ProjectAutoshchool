@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="form-signin w-100 m-auto">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal">{{title}} для студентов</h1>
+        
+        {% if error %}
+        <h1 class="h4 mb-3 fw-normal" style="color: red;">{{ error }}</h1>
+        {% endif %}
+        
+        <div class="form-floating">
+            <input required class="form-control" placeholder="Название группы" name="name" id="groupName">
+            <label for="groupName">Название группы</label>
+        </div>
+        
+        <div class="form-floating">
+            <input required type="number" min="1" class="form-control" placeholder="Вместимость группы" name="group_capacity" id="groupCapacity">
+            <label for="groupCapacity">Вместимость группы</label>
+        </div>
+        
+        <button class="btn btn-primary w-10 py-2 mt-3" type="submit">Создать группу</button>
+    </form>
+</main>
+
+{% endblock %}

@@ -23,18 +23,41 @@
                 </div>
             </div>
         </div>
+        <br>
+        <!-- Общий селект -->
+        <div class="form-floating mb-3">
+            <select required class="form-select" id="studentGroupSelect" name="student_group">
+                <option value="" disabled selected>Выберите группу</option>
+                {% for group in groups %}
+                <option value="{{ group.pk }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+            <label>Группа для студента</label>
+        </div>
+
+        <!-- Кнопки действий -->
         <div class="card-footer d-flex justify-content-end">
-            <form action="" method="post" class="me-2">
+            <form id="rejectForm" action="" method="post" class="me-2">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="reject">
+                <input type="hidden" id="rejectGroup" name="student_group">
                 <button type="submit" class="btn btn-danger">Отклонить документы</button>
             </form>
-            <form action="" method="post">
+            <form id="acceptForm" action="" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="accept">
+                <input type="hidden" id="acceptGroup" name="student_group">
                 <button type="submit" class="btn btn-success">Принять документы</button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    // JavaScript для передачи значения селекта в скрытые поля обеих форм
+    document.getElementById('studentGroupSelect').addEventListener('change', function () {
+        const selectedValue = this.value;
+        document.getElementById('rejectGroup').value = selectedValue;
+        document.getElementById('acceptGroup').value = selectedValue;
+    });
+</script>
 {% endblock %}

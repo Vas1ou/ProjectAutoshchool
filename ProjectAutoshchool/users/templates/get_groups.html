@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        {% for group in groups %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm document-card" style="transition: transform 0.3s ease;">
+                <div class="card-body">
+                    <h5 class="card-title">Учащихся: {{ group.students.count }} из {{group.group_capacity}}</h5>
+                    <h3 class="card-title">{{ group }}</h3>
+                    <a href="" class="btn btn-primary">Просмотреть</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .document-card:hover {
+        transform: scale(1.05);
+        color: grey;
+    }
+</style>
+{% endblock %}

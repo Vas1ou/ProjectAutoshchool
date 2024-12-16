@@ -22,12 +22,14 @@
                     {% if user.student_profile and user.student_profile.submit_doc and not user.student_profile.accepted %}
                         <li class="nav-link px-2" style="color: gray">Вы подали документы на обучение</li>
                     {% endif %}
-                    {% if user.student_profile and user.student_profile.accepted %}
+                    {% if user.student_profile and user.student_profile.group.admission_to_test %}
                         <li><a href="" class="nav-link px-2 text-white">Пройти тесты</a></li>
                         <li><a href="" class="nav-link px-2 text-white">Посмотреть расписание</a></li>
                     {% endif %}
                     {% if user.manager_profile %}
                         <li><a href="{% url 'viewing_documents' %}" class="nav-link px-2 text-white">Принять документы({{ document_count }})</a></li>
+                        <li><a href="{% url 'add_group' %}" class="nav-link px-2 text-white">Добавить новую группу</a></li>
+                        <li><a href="{% url 'get_groups' %}" class="nav-link px-2 text-white">Просмотреть все группы</a></li>
                     {% endif %}
                     {% if user.teacher_profile %}
                         <li><a href="{% url 'add_question' %}" class="nav-link px-2 text-white">Создать вопрос</a></li>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import DocumentsAdmission
+from users.models import StudentGroup
 
 
 def submit_documents(request):
@@ -36,7 +37,8 @@ def accept_documents(request, document_id):
     if request.method == 'GET':
         context = {
             'title': 'Принять документы',
-            'document': document
+            'document': document,
+            'groups': [group for group in StudentGroup.objects.all() if group.possibility_of_filling]
         }
         return render(request, 'accept_documents.html', context=context)
     else:
@@ -62,6 +64,7 @@ def accept_documents(request, document_id):
         elif action == 'accept':
             # Принимаем студента на обучение
             student.accepted = True
+            student.group_id = request.POST.get('student_group')
             student.save()
             # Отмечаем, что документы приняты
             document.verified = True
